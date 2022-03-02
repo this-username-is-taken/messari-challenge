@@ -1,0 +1,45 @@
+# My graphQL challenge solutions
+# Author: Dylan Melotik
+
+query PoolsAssetQuery($asset_id: ID = "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2") {
+  token0Pool: pools(where: {token0: $asset_id}) {
+    id
+  }
+  token1Pool: pools(where: {token1: $asset_id}) {
+    id
+  }
+}
+
+query TotalSwapVolume(
+    $asset_id: ID = "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2", 
+    $start_date: Int = 1628380800, $end_date: Int = 1628640000
+) {
+  token(id: $asset_id) {
+    name
+    tokenDayData(where: {date_lte: $end_date, date_gte: $start_date}) {
+      date
+      volume
+    }
+  }
+}
+
+query SwapsInBlock($block_number: Int = 12375975) {
+  transactions(where: {blockNumber: $block_number}) {
+    swaps {
+      id
+    }
+  }
+}
+
+query AssetsSwapInBlock($block_number: Int = 12375975) {
+  transactions(where: {blockNumber: $block_number}) {
+    swaps {
+      token0 {
+        name
+      }
+      token1 {
+        name
+      }
+    }
+  }
+}
